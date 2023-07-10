@@ -1,4 +1,4 @@
-# Simple Notes App
+# Simple Notes App by Adnan Guchiya
 This is a simple notes app built with React and Django.
 
 ## Requirements
