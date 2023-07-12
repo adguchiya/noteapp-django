@@ -1,6 +1,6 @@
 version : "3.3"
 services :
   web :
-     image : trainwithshubham/my-note-app:latest
+     image : adguchiya/noteapp:latest
      ports :
-         - "8090:8090"
+         - "8000:8000"
