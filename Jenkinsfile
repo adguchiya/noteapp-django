@@ -22,7 +22,7 @@ pipeline {
             steps{
                 echo "dockerhub login"
                 withCredentials([
-                    usernamePass(
+                    usernamePassword(
                         CredentialsId : "dockerhub" , 
                         usernameVariable : "username" , 
                         passwordVariable : "password"
@@ -52,5 +52,5 @@ pipeline {
         }
         }
         }
-        
+
     
