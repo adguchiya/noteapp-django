@@ -27,15 +27,9 @@ pipeline {
                     )
                 ]) {
                     sh "docker login -u $username -p $password"
-                }
-            }
-        }
-
-        stage("pushing code to dockerhub") {
-            steps {
-                echo "pushing image to docker hub"
-                sh "docker tag notebook:latest $username/notebook:latest"
+                      sh "docker tag notebook:latest $username/notebook:latest"
                 sh "docker push $username/notebook:latest"
+                }
             }
         }
 
