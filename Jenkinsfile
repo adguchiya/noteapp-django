@@ -1,35 +1,53 @@
 pipeline {
     agent any 
-    
+
     stages{
-        stage("Clone Code"){
-            steps {
-                echo "Cloning the code"
-                git url:"https://github.com/LondheShubham153/django-notes-app.git", branch: "main"
+
+        stage("git code"){
+            steps{
+                echo "cloning code "
+                git url : "https://github.com/adguchiya/noteapp-django.git" , branch : "main"
             }
         }
-        stage("Build"){
-            steps {
-                echo "Building the image"
-                sh "docker build -t my-note-app ."
+
+        stage("build"){
+            steps{
+                echo "building a docker image"
+                sh "docker build -t notebook:latest ."
+
             }
         }
-        stage("Push to Docker Hub"){
-            steps {
-                echo "Pushing the image to docker hub"
-                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
-                sh "docker tag my-note-app ${env.dockerHubUser}/my-note-app:latest"
-                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
-                sh "docker push ${env.dockerHubUser}/my-note-app:latest"
+
+        stage("dockerhub login"){
+            steps{
+                echo "dockerhub login"
+                withCredentials([
+                    usernamePass(
+                        CredentialsId : "dockerhub" , 
+                        usernameVariable : "username" , 
+                        passwordVariable : "password"
+                    )
+                    
+                ])
+                {
+                    sh "docker login -u $username -p $password"
                 }
             }
         }
-        stage("Deploy"){
-            steps {
-                echo "Deploying the container"
-                sh "docker-compose down && docker-compose up -d"
-                
+
+        stage("pushing code code to dockerhub"){
+            steps{
+                echo "pushing image to docker hub"
+                sh "docker tag notebook:latest $username/notebook:latest"
+            }
+           
+        }
+
+        stage("deploy"){
+            steps{
+                echo "deploying image as a docker container"
+                sh "docker-compose down"
+                sh "docker-compose up -d"
             }
         }
-    }
-}
+    
