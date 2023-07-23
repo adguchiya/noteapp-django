@@ -50,9 +50,8 @@ pipeline {
             steps {
                 echo "deploying image as a docker container"
                 sh "docker-compose down"
-                sh "docker-compose up -d "
+                sh "docker-compose up -d"
             }
         }
     }
 }
-   
