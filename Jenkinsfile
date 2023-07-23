@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_URL = "http://localhost:9000" // Change this URL if SonarQube is hosted elsewhere
+        SONARQUBE_URL = "http://172.17.0.1:9000" // Change this URL if SonarQube is hosted elsewhere
         SONAR_PROJECT_KEY = "notebook"
         SONAR_AUTH_TOKEN = "sqa_7cdbd4c459d60f6ee360c2dde16bc566dca70ff4"
         YOUR_REPO = "/var/lib/jenkins/workspace/notebook" // Update this with the actual path to your project directory on the Jenkins agent
