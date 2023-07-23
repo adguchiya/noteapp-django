@@ -1,8 +1,14 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'SONAR_PROJECT_KEY', description: 'SonarQube Project Key', defaultValue: '')
+    }
+
     environment {
-        SONARQUBE_SCANNER_TOOL = "sonarqube" // The name of the SonarQube Scanner installation defined in Jenkins
+        SONARQUBE_URL = "http://localhost:9000"
+        SONAR_AUTH_TOKEN = "sqa_7cdbd4c459d60f6ee360c2dde16bc566dca70ff4"
+        YOUR_REPO = '/var/lib/jenkins/workspace/notebook' // Update this with the actual path to your project directory on the Jenkins agent
     }
 
     stages {
@@ -16,8 +22,12 @@ pipeline {
         stage("sonarqube analysis") {
             steps {
                 echo "Running SonarQube analysis"
-                withSonarQubeEnv(env.SONARQUBE_SCANNER_TOOL) {
-                    sh "sonar-scanner"
+
+                // Make sure the SonarScanner tool is installed and configured in Jenkins
+                def scannerHome = tool 'SonarScanner'
+
+                withSonarQubeEnv(credentialsId: 'sonarqube-credentials') {
+                    sh "${scannerHome}/bin/sonar-scanner -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.projectKey=${params.SONAR_PROJECT_KEY} -Dsonar.login=${SONAR_AUTH_TOKEN}"
                 }
             }
         }
