@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_SERVER = "sonarqube" // The name of the SonarQube installation defined in Jenkins
+        SONARQUBE_SCANNER_TOOL = "sonarscanner" // The name of the SonarQube Scanner installation defined in Jenkins
     }
 
     stages {
@@ -16,7 +16,7 @@ pipeline {
         stage("sonarqube analysis") {
             steps {
                 echo "Running SonarQube analysis"
-                withSonarQubeEnv(env.SONARQUBE_SERVER) {
+                withSonarQubeEnv(env.SONARQUBE_SCANNER_TOOL) {
                     sh "sonar-scanner"
                 }
             }
