@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SONARQUBE_SERVER = "sonarqube" // The name of the SonarQube installation defined in Jenkins
+    }
+
     stages {
         stage("git code") {
             steps {
@@ -9,10 +13,10 @@ pipeline {
             }
         }
 
-          stage("sonarqube analysis") {
+        stage("sonarqube analysis") {
             steps {
                 echo "Running SonarQube analysis"
-                withSonarQubeEnv('sonarqube') {
+                withSonarQubeEnv(env.SONARQUBE_SERVER) {
                     sh "sonar-scanner"
                 }
             }
@@ -36,8 +40,8 @@ pipeline {
                     )
                 ]) {
                     sh "docker login -u $username -p $password"
-                      sh "docker tag notebook:latest $username/notebook:latest"
-                sh "docker push $username/notebook:latest"
+                    sh "docker tag notebook:latest $username/notebook:latest"
+                    sh "docker push $username/notebook:latest"
                 }
             }
         }
