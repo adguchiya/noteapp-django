@@ -1,12 +1,26 @@
+# FROM python:3.9
+
+# WORKDIR /app/backend
+
+# COPY requirements.txt /app/backend
+# RUN pip install -r requirements.txt
+
+# COPY . /app/backend
+
+# EXPOSE 8002
+
+# CMD python /app/backend/manage.py runserver 0.0.0.0:8002
+
+
 FROM python:3.9
 
-WORKDIR /app/backend
+WORKDIR  /app
 
-COPY requirements.txt /app/backend
+COPY requirements.txt /app
 RUN pip install -r requirements.txt
 
-COPY . /app/backend
+COPY . .
+EXPOSE 9696
 
-EXPOSE 8002
+CMD python ./manage.py runserver 0.0.0.0:9696 
 
-CMD python /app/backend/manage.py runserver 0.0.0.0:8002

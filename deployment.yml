@@ -1,21 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: notebook-deployment
-  labels:
-    app: notebook
+  name: noteapp
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: notebook
+      app: noteapp
   template:
     metadata:
       labels:
-        app: notebook
+        app: noteapp
     spec:
       containers:
-      - name: notebook
-        image: adguchiya/notebook:latest
+      - name: noteapp
+        image: adguchiya/noteapp:latest
         ports:
-        - containerPort: 8002
+        - containerPort: 9696
